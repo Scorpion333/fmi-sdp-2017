@@ -71,8 +71,8 @@ private:
 		if (top == NULL) {
 			return;
 		}
-		cout << "Deleting " << top->data << '\n';	// For test purposes - do NOT leave
-													// such lines in official solutions
+		cout << "Deleting " << top->data << '\n';    // For test purposes - do NOT leave
+		                                             // such lines in official solutions
 		Node* temp = top->next;
 		delete[] top;
 		del(temp);
