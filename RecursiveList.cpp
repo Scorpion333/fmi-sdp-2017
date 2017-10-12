@@ -50,7 +50,7 @@ private:
 		print(top->next);
 	}
 
-	void push_back(int x, Node* top) {
+	void push_back(int x, Node*& top) {
 		if (top->next == NULL) {
 			top->next = new Node(x);
 			return;
@@ -58,7 +58,7 @@ private:
 		push_back(x, top->next);
 	}
 	
-	void pop_back(Node* top) {
+	void pop_back(Node*& top) {
 		if (top->next->next == NULL) {
 			delete[] top->next;
 			top->next = NULL;
@@ -67,7 +67,7 @@ private:
 		pop_back(top->next);
 	}
 	
-	void del(Node* top) {
+	void del(Node*& top) {
 		if (top == NULL) {
 			return;
 		}
