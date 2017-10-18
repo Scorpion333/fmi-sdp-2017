@@ -5,14 +5,14 @@ struct Node {
     int data;
     Node* left;
     Node* right;
-    Node(int _data) : data(_data), left(NULL), right(NULL) {}
+    Node(int _data) : data(_data), left(nullptr), right(nullptr) {}
 };
 
 class BinTree {
     Node* root;
 
 public:
-    BinTree() : root(NULL) {}
+    BinTree() : root(nullptr) {}
 
     ~BinTree() {
         del(root);
@@ -40,7 +40,7 @@ public:
 private:
 
     void add(int x, Node*& sub_root, char* path) {
-        if (sub_root == NULL) {
+        if (sub_root == nullptr) {
             sub_root = new Node(x);
             return;
         }
@@ -54,7 +54,7 @@ private:
     }
 
     unsigned count_elements(Node* sub_root) const {
-        if (sub_root == NULL) {
+        if (sub_root == nullptr) {
             return 0;
         }
         return 1
@@ -63,7 +63,7 @@ private:
     }
 
     void del(Node*& sub_root) {
-        if (sub_root == NULL) {
+        if (sub_root == nullptr) {
             return;
         }
         del(sub_root->left);
@@ -72,7 +72,7 @@ private:
     }
 
     void print(Node* sub_root) const {
-        if (sub_root == NULL) {
+        if (sub_root == nullptr) {
             return;
         }
         cout << sub_root->data << " ";
@@ -81,7 +81,7 @@ private:
     }
 
     unsigned height(Node* sub_root) const {
-        if (sub_root == NULL) {
+        if (sub_root == nullptr) {
             return 0;
         }
         unsigned left = height(sub_root->left);
@@ -90,10 +90,10 @@ private:
     }
 
     unsigned leaves(Node* sub_root) const {
-        if (sub_root == NULL) {
+        if (sub_root == nullptr) {
             return 0;
         }
-        if (sub_root->left == NULL && sub_root->right == NULL) {
+        if (sub_root->left == nullptr && sub_root->right == nullptr) {
             return 1;
         }
         return leaves(sub_root->left) + leaves(sub_root->right);
