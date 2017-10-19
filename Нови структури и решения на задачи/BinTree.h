@@ -12,7 +12,7 @@ struct Node {
     Node(int _data)
         : data(_data), left(nullptr), right(nullptr) {}
 
-    bool childless() {
+    bool childless() const {
         return left == nullptr && right == nullptr;
     }
 };
