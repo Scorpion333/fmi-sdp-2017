@@ -52,6 +52,7 @@ public:
         print_hierarchy(root, 0);
     }
 
+    // Works but causes memory leaks. When and how to delete the new nodes?
     void print_with_stack() const {
         stack<Node*> st;
         st.push(root);
