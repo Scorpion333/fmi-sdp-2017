@@ -1,11 +1,20 @@
+#pragma once
 #include<iostream>
+#include<stack>
+#include"util.h"
 using std::cout;
+using std::stack;
 
 struct Node {
     int data;
     Node* left;
     Node* right;
-    Node(int _data) : data(_data), left(nullptr), right(nullptr) {}
+    Node(int _data)
+        : data(_data), left(nullptr), right(nullptr) {}
+
+    bool childless() {
+        return left == nullptr && right == nullptr;
+    }
 };
 
 class BinTree {
@@ -26,10 +35,6 @@ public:
         return count_elements(root);
     }
 
-    void print() const {
-        print(root);
-    }
-
     unsigned height() const {
         return height(root);
     }
@@ -37,6 +42,37 @@ public:
     unsigned leaves() const {
         return leaves(root);
     }
+
+    // The old trivial "print" - with a better name
+    void print_in_row() const {
+        print_in_row(root);
+    }
+
+    void print_hierarchy() const {
+        print_hierarchy(root, 0);
+    }
+
+    void print_with_stack() const {
+        stack<Node*> st;
+        st.push(root);
+        Node* crr;
+
+        while (!st.empty()) {
+            crr = pop(st);
+            if (crr == nullptr) {
+                continue;
+            }
+            else if (crr->childless()) {
+                cout << crr->data << " ";
+            }
+            else {
+                st.push(crr->right);
+                st.push(crr->left);
+                st.push(new Node(crr->data));
+            }
+        }
+    }
+
 private:
 
     void add(int x, Node*& sub_root, char* path) {
@@ -52,7 +88,7 @@ private:
         add(x, sub_root->right, path + 1);
         return;
     }
-
+    
     unsigned count_elements(Node* sub_root) const {
         if (sub_root == nullptr) {
             return 0;
@@ -70,16 +106,7 @@ private:
         del(sub_root->right);
         delete sub_root;
     }
-
-    void print(Node* sub_root) const {
-        if (sub_root == nullptr) {
-            return;
-        }
-        cout << sub_root->data << " ";
-        print(sub_root->left);
-        print(sub_root->right);
-    }
-
+   
     unsigned height(Node* sub_root) const {
         if (sub_root == nullptr) {
             return 0;
@@ -98,25 +125,24 @@ private:
         }
         return leaves(sub_root->left) + leaves(sub_root->right);
     }
+
+    // The old trivial "print" - with a better name
+    void print_in_row(Node* sub_root) const {
+        if (sub_root == nullptr) {
+            return;
+        }
+        cout << sub_root->data << " ";
+        print_in_row(sub_root->left);
+        print_in_row(sub_root->right);
+    }
+    
+    void print_hierarchy(Node* sub_root, unsigned spaces) const {
+        if (sub_root == nullptr) {
+            return;
+        }
+        print_spaces(spaces);
+        cout << sub_root->data << '\n';
+        print_hierarchy(sub_root->left, spaces + 2);
+        print_hierarchy(sub_root->right, spaces + 2);
+    }
 };
-
-void test_bin_tree() {
-    BinTree bt;
-    bt.add(2, "");
-    bt.add(4, "L");
-    bt.add(6, "R");
-    bt.add(8, "RL");
-    bt.add(10, "RR");
-    bt.add(12, "RLR");
-    cout << "Size:   " << bt.count_elements() << '\n';    // Expected: 6
-    cout << "Height: " << bt.height() << '\n';            // Expected: 4
-    cout << "Leaves: " << bt.leaves() << '\n';            // Expected: 3
-    cout << "Elems:  ";
-    bt.print();         // Expected: 2 4 6 8 12 10
-    cout << '\n';
-}
-
-int main() {
-    test_bin_tree();
-    return 0;
-}
