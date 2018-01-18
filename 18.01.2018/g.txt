@@ -1,0 +1,33 @@
+9 12
+
+Montana
+Sofia  
+Dupnica
+
+Lovech 
+Tarnovo
+Plovdiv
+
+Ruse
+Varna
+Burgas
+
+Montana Sofia 
+Montana Lovech
+
+Lovech Tarnovo
+Lovech Ruse
+ 
+Ruse Varna
+
+Sofia Dupnica  
+Sofia Tarnovo     
+
+Tarnovo Plovdiv
+Tarnovo Varna
+
+Varna Burgas
+
+Dupnica Plovdiv
+
+Plovdiv Burgas

@@ -158,13 +158,20 @@ int test_graph() {
 
     Graph<string> g;
 
-    g.add_edge("Montana", "Sofia");      g.add_edge("Lovech", "Tarnovo");
-    g.add_edge("Montana", "Lovech");     g.add_edge("Lovech", "Ruse");         g.add_edge("Ruse", "Varna");
+    ifstream in("g.txt");
+    int vertexes, edges;
+    in >> vertexes >> edges;
     
-    g.add_edge("Sofia", "Dupnica");      g.add_edge("Tarnovo", "Plovdiv");
-    g.add_edge("Sofia", "Tarnovo");      g.add_edge("Tarnovo", "Varna");       g.add_edge("Varna", "Burgas");
-    
-    g.add_edge("Dupnica", "Plovdiv");    g.add_edge("Plovdiv", "Burgas");
+    for (int i = 0; i < vertexes; i++) {
+        string crr_vertex;
+        in >> crr_vertex;
+        g.add_vertex(crr_vertex);
+    }
+    for (int i = 0; i < edges; i++) {
+        string a, b;
+        in >> a >> b;
+        g.add_edge(a, b);
+    }
 
     cout << "has_path:\n\n"
         << g.has_path("Lovech", "Plovdiv")
