@@ -121,9 +121,9 @@ bool larger_than_90(const int& x) {
 }
 
 
-// Test time!
-#include"expect.h"
-
+// Test time!                           // Note: vectors can be initialized with {}.
+#include"expect.h"                      // Below { 2, 3, 4 } creates a vector of these three numbers
+                                                                
 void test_tree() {
     cout << "--- --- TESTING THE TREE --- ---\n\n";
 
