@@ -1,7 +1,19 @@
 #pragma once
-#include"main-header.h"     // TODO: put only the needed includes
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<set>
+#include<map>
+#include<utility>   // For std::pair
+#include"expect.h"
+using std::cout;
+using std::ostream;
+using std::string;
+using std::set;
+using std::map;
+using std::pair;
 
-void use_set() {
+void use_set() {        // Examples with std::set
 
     cout << "--- --- USING STD::SET --- ---\n\n";
 
@@ -29,7 +41,7 @@ void use_set() {
     expect("11 13 11 13");
 }
 
-void use_map() {
+void use_map() {        // Examples with std::map
 
     cout << "--- --- USING STD::MAP --- ---\n\n";
 
