@@ -7,85 +7,50 @@ using std::cout;
 using std::queue;
 using std::set;
 
+// Some notes:
+// - I've used some functions for vectors, written in 'ExtendedVector.h'
+// - In a const method, we can call only const methods, that's why we need 2 versions of 'neighbours_of'
+
 template<typename T>
 class Graph {
-    vector<T> vertexes;
-    vector<vector<T>> lists;
-
+    vector<T> vertexes;                             // Vector, containing all the vertexes in the graph
+    vector<vector<T>> lists;                        // Adjacency lists - for each i, 
+                                                    // lists[i] contains the neighbours of vertexes[i]
 public:
-    void print() {
-        cout << vertexes.size() << ' ';
+                                                    // 'Getters' for the neighbours of a vertex - 2 because:
+    vector<T>& neighbours_of(const T& v) {          // - this version allows us to change the returned vector
+        return lists[index_of(v, vertexes)];
+    }
+    vector<T> neighbours_of(const T& v) const {     // - this version allows us to use 'neighbours_of' in const methods
+        return lists[index_of(v, vertexes)];
+    }                                               // GOOD NEWS: Compiler is clever and it always calls the right version,
+                                                    //            we don't need to think about it.
 
-        int edges_number = 0;
-        for (int i = 0; i < vertexes.size(); i++) {
-            edges_number += neighbours_of(vertexes[i]).size();
-        }
-        cout << edges_number << '\n';
-
-        for (int i = 0; i < vertexes.size(); i++) {
-            cout << vertexes[i] << '\n';
-        }
-        for (int i = 0; i < vertexes.size(); i++) {
-            for (int j = 0; j <= neighbours_of(vertexes[i]).size(); j++) {
-                cout << vertexes[i] << ' '
-                     << neighbours_of(vertexes[i])[j] << '\n';
-            }
-        }
+    bool has_vertex(const T& v) const {
+        return has_element(v, vertexes);
     }
 
-    Graph(const vector<T>& vec = {})
-        : vertexes(vec),
-        lists(vec.size(), vector<T>()) {}
-
-    int index_of_vertex(const T& v) const {
-        return index_of(v, vertexes);
+    bool has_edge(const T& a, const T& b) const {
+        return has_vertex(a) && has_vertex(b) && has_element(b, neighbours_of(a));
     }
 
-    void add_vertex(const T& v) {
-        if (index_of_vertex(v) == -1) {
+    void add_vertex(const T& v) {                   // Adds the vertex and creates a list of neighbours for it,
+        if (!has_vertex(v)) {                       // if it needs to be added.
             vertexes.push_back(v);
-            lists.push_back(vector<T>());
+            lists.push_back({});                    // {} == empty vector 
         }
     }
 
     void add_edge(const T& a, const T& b) {
-        add_vertex(a);
+        add_vertex(a);                              // We add A and B, if needed.
         add_vertex(b);
-        push_if_needed(b, lists[index_of_vertex(a)]);
-    }
-
-    // The bug here was in the argument type - 'const T&' is not always safe...
-    void remove_vertex(T v) {
-        int iv = index_of_vertex(v);
-        if (iv == -1) {
-            return;
-        }
-        vertexes.erase(vertexes.begin() + iv);
-        lists.erase(lists.begin() + iv);
-
-        for (unsigned i = 0; i < lists.size(); i++) {
-            remove_from_vector(v, lists[i]);
-        }
+        if (!has_element(b, neighbours_of(a)))      // If B is not in neighbours_of(a),
+            neighbours_of(a).push_back(b);          // we put it there.
     }
 
     void remove_edge(const T& a, const T& b) {
-        int ia = index_of_vertex(a);
-        if (ia == -1) {
-            return;
-        }
-        remove_from_vector(b, lists[ia]);
-    }
-
-    bool has_vertex(const T& v) const {
-        return index_of_vertex(v) != -1;
-    }
-    bool has_edge(const T& a, const T& b) const {
-        return has_vertex(a) && has_vertex(b) &&
-            index_of(b, neighbours_of(a)) != -1;
-    }
-    
-    vector<T> neighbours_of(const T& v) const {
-        return lists[index_of_vertex(v)];
+        if(has_vertex(a))                               // If there's no A, there is no such edge
+            remove_from_vector(b, neighbours_of(a));    // If there is A, we make sure b is not a neighbour of it.
     }
 
     bool has_path(const T& a, const T& b) const {
@@ -144,13 +109,36 @@ public:
             }
         }
     }
+
+    // Prints the graph in the fromat from g.txt
+    void print() {
+        cout << vertexes.size() << ' ';
+
+        int edges_number = 0;
+        for (int i = 0; i < vertexes.size(); i++) {
+            edges_number += neighbours_of(vertexes[i]).size();
+        }
+        cout << edges_number << '\n';
+
+        for (int i = 0; i < vertexes.size(); i++) {
+            cout << vertexes[i] << '\n';
+        }
+        for (int i = 0; i < vertexes.size(); i++) {
+            for (int j = 0; j <= neighbours_of(vertexes[i]).size(); j++) {
+                cout << vertexes[i] << ' '
+                    << neighbours_of(vertexes[i])[j] << '\n';
+            }
+        }
+    }
 };
 
 
 // Test time!
 
-#include"util.h"            // expect()
-#include"string"
+#include<fstream>
+#include<string>
+#include"expect.h"
+using std::ifstream;
 using std::string;
 
 int test_graph() {
