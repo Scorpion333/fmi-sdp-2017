@@ -1,5 +1,10 @@
 #pragma once
-#include"main-header.h"     // TODO: put only the needed includes
+#include<iostream>
+#include<vector>
+#include<queue>
+using std::cout;
+using std::vector;
+using std::queue;
 
 template<typename T>
 struct Node {
@@ -117,6 +122,7 @@ bool larger_than_90(const int& x) {
 
 
 // Test time!
+#include"expect.h"
 
 void test_tree() {
     cout << "--- --- TESTING THE TREE --- ---\n\n";
