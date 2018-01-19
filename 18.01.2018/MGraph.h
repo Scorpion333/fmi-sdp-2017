@@ -1,7 +1,12 @@
-// WARNING: Not tested code - probably contains some mistakes.
-
 #pragma once
-#include"main-header.h"     // TODO: put only the needed includes
+#include<iostream>
+#include<queue>
+#include<set>
+#include<vector>
+using std::cout;
+using std::queue;
+using std::set;
+using std::vector;
 
 // "Matrix" graph. Its vertexes' values are the numbers: 0, 1, 2, ...
 
