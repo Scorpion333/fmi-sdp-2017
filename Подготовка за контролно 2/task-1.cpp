@@ -26,9 +26,9 @@ void remove_duplicates(ListNode<T>*& first) {
     if (first == nullptr) {
         return;
     }
-    remove_duplicates(first->next);                   // After this line, the sublist startting from 'first->next' contains no duplicates.
-    remove_from_list(first->next, first->data);       // It contains 'first->data' 0 or 1 times => it is enough to remove 'first->data' once.
-}                                                     // Recursion is <3, recursion is life!
+    remove_duplicates(first->next);                   // After this line, the sublist starting from 'first->next' contains no
+    remove_from_list(first->next, first->data);       // duplicates. It contains 'first->data' 0 or 1 times => it is enough to
+}                                                     // remove 'first->data' once. Recursion is <3, recursion is life!
 
 
 // Test time! Here are some useful functions:
@@ -67,4 +67,6 @@ int main() {
     remove_duplicates(lis);
     print_list(lis);
     expect("4 2 6 3");
+    
+    return 0;
 }
