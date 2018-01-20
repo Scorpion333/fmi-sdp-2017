@@ -27,12 +27,12 @@ void print_leaves_rec(const Node<T>* root) {
     if (root == nullptr) {                    // This is not the bottom of recursion. (No subtree can be empty.)
         return;                               // It is just a special case
     }
-    if (root->children.size() == 0) {
-        cout << root->data << ' ';
+    if (root->children.size() == 0) {         // This is the recursion's bottom - when
+        cout << root->data << ' ';            // root->children.size() is 0.
         return;
     }
-    for (int i = 0; i < root->children.size(); i++) {       // Recursion's bottom is reached when
-        print_leaves_rec(root->children[i]);                // root->children.size() is 0.
+    for (int i = 0; i < root->children.size(); i++) {       
+        print_leaves_rec(root->children[i]);                
     }
 }
 

@@ -8,27 +8,17 @@ struct ListNode {
     ListNode(const T& _data) : data(_data), next(nullptr) {}
 };
 
-template<typename T>
-bool has_element(const ListNode<T>* first, const T& x) {
-    if (first == nullptr) {
-        return false;
-    }
-    if (first->data == x) {
-        return true;
-    }
-    return has_element(first->next, x);
-}
-
-// Removes all occurrences of the element                       // Challenge: This function looks great and works fine,
-template<typename T>                                            // but can be made better. Add two lines to fix it.
-void remove_all_occs(ListNode<T>*& first, const T& removed) {
+// Removes the element once (if it is in the list)                  // Challenge: This function looks great and works fine,
+template<typename T>                                                // but can be made better. Add two lines to fix it.
+void remove_from_list(ListNode<T>*& first, const T& removed) {
     if (first == nullptr) {
         return;
     }
-    remove_all_occs(first->next, removed);      // First we remove it from the 'tail' (the sublist from first->next)
-    if (first->data == removed) {               // and then from the 'head' (the first position).
-        first = first->next;                    // This line is legal because first is a reference.
+    if (first->data == removed) {               
+        first = first->next;                // This is legal because first is a reference.         
+        return;
     }
+    remove_from_list(first->next, removed);
 }
 
 template<typename T>
@@ -36,13 +26,9 @@ void remove_duplicates(ListNode<T>*& first) {
     if (first == nullptr) {
         return;
     }
-    if (has_element(first->next, first->data)) {        // If first->data needs to be removed,
-        remove_all_occs(first, first->data);            // we remove it.
-        remove_duplicates(first);                       // Then we remove all duplicates from the remainder.
-        return;
-    }
-    remove_duplicates(first->next);                     // If first->data can stay alive, we just go on.
-}
+    remove_duplicates(first->next);                   // After this line, the sublist starting from 'first->next' contains no
+    remove_from_list(first->next, first->data);       // duplicates. It contains 'first->data' 0 or 1 times => it is enough to
+}                                                     // remove 'first->data' once. Recursion is <3, recursion is life!
 
 
 // Test time! Here are some useful functions:
@@ -80,7 +66,7 @@ int main() {
     cout << "After:\n";
     remove_duplicates(lis);
     print_list(lis);
-    expect("3");
-
+    expect("4 2 6 3");
+    
     return 0;
 }
