@@ -5,6 +5,7 @@ void find_unique(int g[100][100], int n, int m, int start_vertex, set<int>& resu
             results.insert(crr_sum);                        // we add it in the set of unique results.
             find_unique(g, n, m, j, results, crr_sum);      // And we add the sums that we can reach by going though j's neoghbours.
         }
+        crr_sum -= g[start_vertex][j];
     }
 }
 int countUnique(int g[100][100], int n, int m) {
